@@ -1,0 +1,27 @@
+* { box-sizing: border-box; }
+
+#game * {
+	text-align: center;
+	font-family: Sans-Serif;
+}
+#letterBoard {
+	font-size: 2.5em; /* 40px */
+	letter-spacing: 0.125em; /* 5px */
+}
+h1 {
+	margin-bottom: 60px;
+}
+h3 { margin-top: 5px; }
+
+.row {
+	width: 400px;
+	height: 130px;
+	margin: 10px auto 30px;
+	padding: 15px 10px;
+}
+.row:last-child {
+		border-bottom: 1px solid #999999;
+}
+.row-2 {
+	height: 80px;
+}
