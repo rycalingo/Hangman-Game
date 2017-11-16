@@ -9,14 +9,14 @@
 	letter-spacing: 0.125em; /* 5px */
 }
 h1 {
-	margin-bottom: 60px;
+	margin-bottom: 40px;
 }
 h3 { margin-top: 5px; }
 
+p { margin: 5px 0; }
 .row {
 	width: 400px;
-	height: 130px;
-	margin: 10px auto 30px;
+	margin: 10px auto 0;
 	padding: 15px 10px;
 }
 .row:last-child {
@@ -25,3 +25,4 @@ h3 { margin-top: 5px; }
 .row-2 {
 	height: 80px;
 }
+#numGuess { font-size: 20px; }

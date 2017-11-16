@@ -3,71 +3,101 @@ var hangman = {
 	wordList: [
 				"alpha","bravo","charlie","delta","echo","foxtrot","golf","hotel","india",
 				"juliet","kilo","lima","mike","november","oscar","papa","quebec","romeo",
-				"sierra","tango","uniform","victor","whiskey","xray","yankee","zulu"
+				"sierra","tango","uniform","victory","whiskey","xray","yankee","zulu"
 				],
 
 	secretWord: "",
 
-	turns: 10,
+	numGuess: 0,
 
 	startGame: function() {
+
+		var startGame = document.onkeyup = function(event) {
+			if (hangman.numGuess === 0) {
+				
+				hangman.numGuess = 10;
+				return hangman.resetGame();
+			}
+		}
+
+	},
+
+	resetGame: function() {
 
 		var n = Math.floor(Math.random() * this.wordList.length);
 		this.secretWord = this.wordList[n];
 		this.secretWord = this.secretWord.toUpperCase();
+
+		$("#numGuess").text(this.numGuess);
+
 		console.log(this.secretWord);
 		var theWord = "";
 		for(var i = 0; i < this.secretWord.length; i++ ) {
 			theWord += "_";
 		}
-		$("#letterBoard").html(theWord);
+		$("#letterBoard").text(theWord);
+		$("#numGuess").text(this.numGuess);
+		$("#lettersUsed").text("");
 
+		return this.runGame();
 	},
 
-	playersGuess: function() {
-
+	runGame: function() {
+		
 		var isAChar = /^[a-z]$/i;
-		var guessChar = document.onkeyup = function(event){
+		var playChar = document.onkeyup = function(event){
+			//console.log(event.which);
 			var char = String.fromCharCode(event.which);
-			console.log(char);
+			//console.log(char);
 			// console.log(char + " = " + char.length);
-				char = isAChar.test(char) ? char : false;
+			char = isAChar.test(char) ? char : false;
 
 			var shownWord = $("#letterBoard").text();
 			var usedChar = $("#lettersUsed").text();
 			var tempStr = "";
-			console.log(shownWord);
+			//console.log(shownWord);
 
 			if (char) {
 
-				if ( shownWord.indexOf(char) === -1 && usedChar.indexOf(char) === -1) { 
+				// if (char) is not in #letterBoard and #lettersUsed
+				if ( shownWord.indexOf(char) === -1 && usedChar.indexOf(char) === -1 ) {
 
-					//wrong letter
-					// add letter to used letters
+					// if (char) is in secretWord
+					if ( hangman.secretWord.indexOf(char) > -1 ) {
 
-				} else {
-					for(var i = 0; i < hangman.secretWord.length; i++ ) {
-						if ( char === hangman.secretWord.charAt(i) ) {
-							tempStr += char;
-						}else {
+						for(var i = 0; i < hangman.secretWord.length; i++ ) {
+							if ( char === hangman.secretWord.charAt(i) ) {
+								// add char to tempStr
+								tempStr += char; 
+							}else {
+								// else add shownWord letter
+								tempStr += shownWord.charAt(i);
+							}
+						}
+						// display tempStr to #letterBoard
+						$("#letterBoard").text(tempStr);
 
-							tempStr += shownWord.charAt(i);
-							hangman.usedLetters += char;
+						if (tempStr.indexOf("_") === -1 ) {
+							hangman.numGuess = 0;
+							alert("You WIN!");
+						}
+						console.log(hangman.numGuess);
+					}else {
+						//wrong letter
+						// add letter to already used letters
+						usedChar = usedChar.length > 0 ? usedChar + ", " + char : char;
+						$("#lettersUsed").text(usedChar);
+						// minus one turn
+						if ( hangman.numGuess !== 0 ) {
+							hangman.numGuess--;
+							$("#numGuess").text(hangman.numGuess);
 						}
 					}
-					$("#letterBoard").text(tempStr);
-
-				}else {
-					hangman.usedLetters += char;
-					$("#lettersUsed").text(hangman.usedLetters);
-				}
+				}// else do nothing
 			}
-		}
-		// var printlettersUsed = document.getElementByClassName("lettersUsed").innerHTML = this.usedLetters;
-		// return guessChar;
+		};
+
 	}
 
 };
 hangman.startGame();
-
-hangman.playersGuess();
