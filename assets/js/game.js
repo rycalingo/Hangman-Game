@@ -7,94 +7,109 @@ var hangman = {
 				],
 
 	secretWord: "",
+    usedChar: "",
+	numGuess: 10,
+	OnOff: 0,
 
-	numGuess: 0,
-
-	startGame: function() {
-
-		var startGame = document.onkeyup = function(event) {
-			if (hangman.numGuess === 0) {
+	startGame: function(numGuess) {
+		$("#anyKeyMsg").addClass("show");
+		if ( this.OnOff === 0 ) {
+			var prepGame = document.onkeyup = function(event) {	
 				
-				hangman.numGuess = 10;
-				return hangman.resetGame();
+				$("#gameOverMsg").removeClass("show");
+				$("#anyKeyMsg").removeClass("show");
+				hangman.OnOff = 1;
+
+				return hangman.resetGame(numGuess);
 			}
 		}
 
 	},
+	resetGame: function(numGuess) {
 
-	resetGame: function() {
+		$("#numGuess").text(numGuess || this.numGuess);
+
+		this.usedChar = "";
+		$("#lettersUsed").text(this.usedChar);
 
 		var n = Math.floor(Math.random() * this.wordList.length);
 		this.secretWord = this.wordList[n];
 		this.secretWord = this.secretWord.toUpperCase();
 
-		$("#numGuess").text(this.numGuess);
-
 		console.log(this.secretWord);
-		var theWord = "";
+		var hiddenWord = "";
 		for(var i = 0; i < this.secretWord.length; i++ ) {
-			theWord += "_";
+			hiddenWord += "_";
 		}
-		$("#letterBoard").text(theWord);
-		$("#numGuess").text(this.numGuess);
-		$("#lettersUsed").text("");
+		$("#letterBoard").text(hiddenWord);
 
 		return this.runGame();
 	},
-
 	runGame: function() {
 		
-		var isAChar = /^[a-z]$/i;
+		var isAChar = /^[a-z]$/i; //test for letters only
 		var playChar = document.onkeyup = function(event){
 			//console.log(event.which);
 			var char = String.fromCharCode(event.which);
-			//console.log(char);
 			// console.log(char + " = " + char.length);
 			char = isAChar.test(char) ? char : false;
 
 			var shownWord = $("#letterBoard").text();
-			var usedChar = $("#lettersUsed").text();
+			var numWins = $("#numWins").text();
+			var numGuess = $("#numGuess").text();
 			var tempStr = "";
 			//console.log(shownWord);
-
-			if (char) {
-
-				// if (char) is not in #letterBoard and #lettersUsed
-				if ( shownWord.indexOf(char) === -1 && usedChar.indexOf(char) === -1 ) {
-
+			if (char && hangman.OnOff === 1) {
+				// if (char) is not in #letterBoard and not in #lettersUsed
+				if ( shownWord.indexOf(char) === -1 && hangman.usedChar.indexOf(char) === -1 ) {
 					// if (char) is in secretWord
 					if ( hangman.secretWord.indexOf(char) > -1 ) {
 
 						for(var i = 0; i < hangman.secretWord.length; i++ ) {
 							if ( char === hangman.secretWord.charAt(i) ) {
-								// add char to tempStr
+								// if there's a match add char to tempStr
 								tempStr += char; 
 							}else {
-								// else add shownWord letter
+								// else add shownWord to tempStr
 								tempStr += shownWord.charAt(i);
 							}
 						}
 						// display tempStr to #letterBoard
 						$("#letterBoard").text(tempStr);
-
+						// if there are no "_" left add wins
 						if (tempStr.indexOf("_") === -1 ) {
-							hangman.numGuess = 0;
-							alert("You WIN!");
+							
+							numWins++;
+							$("#numWins").text(numWins);
+							console.log("★★★ You Win ★★★")
+							hangman.OnOff = 0;
+
+							return hangman.startGame();
 						}
-						console.log(hangman.numGuess);
 					}else {
-						//wrong letter
-						// add letter to already used letters
-						usedChar = usedChar.length > 0 ? usedChar + ", " + char : char;
-						$("#lettersUsed").text(usedChar);
-						// minus one turn
-						if ( hangman.numGuess !== 0 ) {
-							hangman.numGuess--;
-							$("#numGuess").text(hangman.numGuess);
+
+						numGuess--;
+						$("#numGuess").text(numGuess);
+						console.log(numGuess);						
+
+						hangman.usedChar+= char;
+						// add wrong letter to #lettersUsed
+						$("#lettersUsed").text(hangman.usedChar);
+						hangman.usedChar+= ", "
+
+						if ( numGuess <= 0 ) {
+
+							$("#gameOverMsg").addClass("show");
+							console.log("OH Crap!");
+							hangman.OnOff = 0;
+
+							return hangman.startGame();
 						}
+
 					}
-				}// else do nothing
+				}else { console.log("Pick a differnt letter"); }
 			}
+
 		};
 
 	}
