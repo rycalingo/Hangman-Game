@@ -16,7 +16,8 @@ var hangman = {
 		if ( this.OnOff === 0 ) {
 			var prepGame = document.onkeyup = function(event) {	
 				// press any key to start
-				$("#gameOverMsg").removeClass("show");
+				//$("#gameOverMsg").removeClass("show");
+				document.getElementById("gameOverMsg").removeAttribute("show");
 				hangman.OnOff = 1;
 
 				hangman.resetGame(numGuess);
@@ -98,7 +99,8 @@ var hangman = {
 
 						if ( numGuess <= 0 ) {
 
-							$("#gameOverMsg").addClass("show");
+							// $("#gameOverMsg").addClass("show");
+							document.getElementById("gameOverMsg").removeAttribute("show");
 							console.log("OH Crap!");
 							hangman.OnOff = 0;
 
