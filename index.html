@@ -13,19 +13,19 @@
   <div id="game">
   	
   	<h1>HANGMAN GAME</h1>
-	<h2 id="gameOverMsg">Game Over</h2>
+	<span class="stars one">☆☆☆</span><div class="inline"><h2 id="gameOverMsg">Game Over</h2></div><span class="stars one">☆☆☆</span>
 	<h2 id="anyKeyMsg">Press Any Key<br>to Get Started!</h2>
 
 
 	<div class="row row-1">
-		<h3>WINS: <span id="numWins">0</span></h3>
+		<h3 id="wins">WINS: <span id="numWins">0</span></h3>
 		
 		<h3>Current Word</h3>
 	  	<p id="letterBoard">&nbsp;</p>
 	</div>
 	<div class="row row-2">
 		<h3>Number of Guesses<br>Remaining</h3>
-		<p id="numGuess">&nbsp;</p>
+		<span class="stars">☆</span><div class="inline"><h3 id="numGuess">00</h3></div><span class="stars">☆</span>
 	</div>
 	<div class="row row-3">
   	  <p id="lettersUsed">&nbsp;</p>

@@ -12,15 +12,14 @@ var hangman = {
 	OnOff: 0,
 
 	startGame: function(numGuess) {
-		$("#anyKeyMsg").addClass("show");
+
 		if ( this.OnOff === 0 ) {
 			var prepGame = document.onkeyup = function(event) {	
-				
+				// press any key to start
 				$("#gameOverMsg").removeClass("show");
-				$("#anyKeyMsg").removeClass("show");
 				hangman.OnOff = 1;
 
-				return hangman.resetGame(numGuess);
+				hangman.resetGame(numGuess);
 			}
 		}
 

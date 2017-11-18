@@ -1,6 +1,6 @@
 * { box-sizing: border-box; }
 
-body { background: url("../img/western-backdrop.jpg") 0 0 / 100% auto repeat; }
+body { background: url("../img/western-backdrop.jpg") 0 0 / 100% repeat; }
 
 
 /* font-family: 'Ewert', cursive; */
@@ -12,7 +12,7 @@ h1 {
 	font-weight: normal;
 	font-size: 50px;
 	margin-top: 0;
-	margin-bottom: 20px;
+	margin-bottom: 0;
 }
 h2, h3, h4, h5, p {
 	color: #292100;
@@ -20,7 +20,6 @@ h2, h3, h4, h5, p {
 }
 
 h2 { margin-bottom: 10px; }
-h3 { margin-top: 5px; }
 
 h5 { margin-top: 10px; }
 
@@ -55,17 +54,36 @@ p {
 .row:last-child {
 	height: 100px;
 	margin: 0 auto;
-	border-bottom: 10px dotted #322709;
+	/*border-bottom: 10px dotted #322709;*/
 }
-#numGuess { font-size: 26px; }
+#wins, #numWins, #numGuess {
+	font-family: "BioRhyme", cursive;
+	margin: 20px 0;
+	font-size: 26px;
+}
 
 .last {
 	position: absolute;
 	width: inherit;
 	bottom: 10px;
 }
-#anyKeyMsg, #gameOverMsg { 
+#gameOverMsg { 
 	opacity: 0;
 	transition: opcacity .5s ease;
  }
-#anyKeyMsg.show, #gameOverMsg.show { opacity: 1; }
+#gameOverMsg.show { opacity: 1; }
+
+.stars, .inline { 
+	font-size: 20px;
+	vertical-align: middle;
+	display: inline-block;
+}
+.inline { 
+	min-width: 100px;
+}
+ .stars {
+ 	text-align: center;
+ 	font-weight: bolder;
+ 	font-size: 1.5em;
+ }
+ .stars.one { letter-spacing: 27px; }
