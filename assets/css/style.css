@@ -67,14 +67,15 @@ p {
 	width: inherit;
 	bottom: 10px;
 }
-#gameOverMsg { 
+#gameOverMsg {
+	margin: 0 20px;
 	opacity: 0;
 	transition: opcacity .5s ease;
  }
 #gameOverMsg.show { opacity: 1; }
 
 .stars, .inline { 
-	font-size: 20px;
+	zoom: 1.2;
 	vertical-align: middle;
 	display: inline-block;
 }
@@ -86,4 +87,3 @@ p {
  	font-weight: bolder;
  	font-size: 1.5em;
  }
- .stars.one { letter-spacing: 27px; }
